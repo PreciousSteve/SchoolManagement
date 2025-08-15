@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SchoolManagement.Domain
+{
+    public class Student
+    {
+        public int Id { get; set; }
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public string PasswordHash { get; set; } = default!;
+        public required string Email { get; set; }
+        public Gender Gender { get; set; }
+        public UserStatus UserStatus { get; private set; }
+        public Classroom ClassRoom { get; set; }
+        public List<Enrollment> Enrollments { get; set; }
+    }
+}
