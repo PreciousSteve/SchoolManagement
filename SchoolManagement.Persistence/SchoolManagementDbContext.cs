@@ -7,7 +7,7 @@ namespace SchoolManagement.Persistence
 {
     public class SchoolManagementDbContext : DbContext
     {
-        public SchoolManagementDbContext(DbContextOptions<SchoolManagementDbContext> options)
+        public SchoolManagementDbContext(DbContextOptions<SchoolManagementDbContext> options) : base(options)
         { 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
