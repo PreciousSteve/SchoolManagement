@@ -22,12 +22,12 @@ namespace SchoolManagement.Persistence
                 entity.HasKey(e => e.Id);
 
                 entity.HasOne(e => e.Student)
-                      .WithMany() // or .WithMany(s => s.Enrollments) if Student has the collection
+                      .WithMany()
                       .HasForeignKey(e => e.StudentId)
                       .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasOne(e => e.Course)
-                      .WithMany() // or .WithMany(c => c.Enrollments) if Course has the collection
+                      .WithMany()
                       .HasForeignKey(e => e.CourseId)
                       .OnDelete(DeleteBehavior.Cascade);
             });
