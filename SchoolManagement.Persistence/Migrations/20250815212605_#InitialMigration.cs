@@ -102,24 +102,36 @@ namespace SchoolManagement.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentIdId = table.Column<int>(type: "int", nullable: false),
-                    CourseIdId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    CourseId1 = table.Column<int>(type: "int", nullable: true),
+                    StudentId1 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Enrollments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Enrollments_Courses_CourseIdId",
-                        column: x => x.CourseIdId,
+                        name: "FK_Enrollments_Courses_CourseId",
+                        column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Enrollments_Students_StudentIdId",
-                        column: x => x.StudentIdId,
+                        name: "FK_Enrollments_Courses_CourseId1",
+                        column: x => x.CourseId1,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Enrollments_Students_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Enrollments_Students_StudentId1",
+                        column: x => x.StudentId1,
+                        principalTable: "Students",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -154,14 +166,24 @@ namespace SchoolManagement.Persistence.Migrations
                 column: "ClassRoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollments_CourseIdId",
+                name: "IX_Enrollments_CourseId",
                 table: "Enrollments",
-                column: "CourseIdId");
+                column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Enrollments_StudentIdId",
+                name: "IX_Enrollments_CourseId1",
                 table: "Enrollments",
-                column: "StudentIdId");
+                column: "CourseId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Enrollments_StudentId",
+                table: "Enrollments",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Enrollments_StudentId1",
+                table: "Enrollments",
+                column: "StudentId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Grades_EnrollmentId",
