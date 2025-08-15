@@ -1,5 +1,4 @@
-﻿
-namespace SchoolManagement.Domain
+﻿namespace SchoolManagement.Domain.UserManagement
 {
     public class Student
     {

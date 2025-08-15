@@ -1,6 +1,4 @@
-﻿
-
-namespace SchoolManagement.Domain
+﻿namespace SchoolManagement.Domain.UserManagement
 {
     public enum Gender
     {

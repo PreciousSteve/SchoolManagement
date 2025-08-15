@@ -1,5 +1,7 @@
 ﻿
 
+using SchoolManagement.Domain.UserManagement;
+
 namespace SchoolManagement.Domain
 {
     public class Classroom
