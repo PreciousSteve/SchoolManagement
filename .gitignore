@@ -5,3 +5,6 @@
 /.vs/SchoolManagementAPI
 /SchoolManagementAPI/obj/Debug/net8.0/SchoolManagement.API.AssemblyInfo.cs
 /SchoolManagementAPI/obj/Debug/net8.0/SchoolManagement.API.AssemblyInfoInputs.cache
+/SchoolManagement.Domain/obj
+/SchoolManagement.Infrastructure/obj
+/SchoolManagement.Persistence/obj
