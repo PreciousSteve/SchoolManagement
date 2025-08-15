@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace SchoolManagement.Domain
 {
@@ -16,5 +12,6 @@ namespace SchoolManagement.Domain
         public string Phone { get; set; } = default!;
         public Gender Gender { get; set; }
         public UserStatus UserStatus { get; set; }
+        public Classroom ClassRoom { get; set; } = default!;
     }
 }
