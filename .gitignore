@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/SchoolManagementAPI
+/SchoolManagementAPI/obj/Debug/net8.0/SchoolManagement.API.AssemblyInfo.cs
+/SchoolManagementAPI/obj/Debug/net8.0/SchoolManagement.API.AssemblyInfoInputs.cache
