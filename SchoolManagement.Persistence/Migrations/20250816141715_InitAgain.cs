@@ -5,7 +5,7 @@
 namespace SchoolManagement.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitAgain : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -57,7 +57,7 @@ namespace SchoolManagement.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClassRoomId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -83,17 +83,16 @@ namespace SchoolManagement.Persistence.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     UserStatus = table.Column<int>(type: "int", nullable: false),
-                    ClassRoomId = table.Column<int>(type: "int", nullable: false)
+                    ClassroomId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_Classrooms_ClassRoomId",
-                        column: x => x.ClassRoomId,
+                        name: "FK_Students_Classrooms_ClassroomId",
+                        column: x => x.ClassroomId,
                         principalTable: "Classrooms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -169,9 +168,9 @@ namespace SchoolManagement.Persistence.Migrations
                 column: "EnrollmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_ClassRoomId",
+                name: "IX_Students_ClassroomId",
                 table: "Students",
-                column: "ClassRoomId");
+                column: "ClassroomId");
         }
 
         /// <inheritdoc />

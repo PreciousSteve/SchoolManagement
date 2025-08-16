@@ -9,7 +9,6 @@
         public required string Email { get; set; }
         public Gender Gender { get; set; }
         public UserStatus UserStatus { get; private set; }
-        public Classroom ClassRoom { get; set; }
-        public List<Enrollment> Enrollments { get; set; }
+        public List<Enrollment>? Enrollments { get; set; }
     }
 }

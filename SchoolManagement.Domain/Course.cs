@@ -6,9 +6,9 @@ namespace SchoolManagement.Domain
     {
         public int Id { get; set; }
         public required string Title { get; set; }
-        public string Description { get; set; } = default!;
-        public required int ClassRoomId { get; set; }
-        public Classroom ClassRoom { get; set; }
-        public List<Enrollment> Enrollments { get; set; }
+        public string? Description { get; set; }
+        public int ClassRoomId { get; set; }
+        public Classroom ClassRoom { get; set; } = default!;
+        public List<Enrollment>? Enrollments { get; set; }
     }
 }

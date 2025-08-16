@@ -10,8 +10,8 @@ namespace SchoolManagement.Domain
         public required string Name { get; set; }
         public string Description { get; set; } = default!;
         public int TeacherId { get; set; }
-        public Teacher Teacher { get; set; }
-        public List<Student> Students { get; set; }
-        public List<Course> Courses { get; set; }
+        public Teacher Teacher { get; set; } = default!;
+        public List<Student>? Students { get; set; }
+        public List<Course>? Courses { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace SchoolManagement.Domain
         public int Id { get; set; }
         public int Score { get; set; }
         public int EnrollmentId { get; set; }
-        public Enrollment Enrollment { get; set; }
+        public Enrollment Enrollment { get; set; } = default!;
     }
 }
