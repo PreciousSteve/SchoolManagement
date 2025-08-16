@@ -39,3 +39,5 @@
 /SchoolManagementAPI/obj/Debug/net8.0
 /SchoolManagementAPI/obj/Debug/net8.0/rpswa.dswa.cache.json
 /.vs/ProjectEvaluation
+/.vs
+/SchoolManagementAPI/obj/Release/net8.0
