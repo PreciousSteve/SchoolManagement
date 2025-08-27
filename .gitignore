@@ -41,3 +41,11 @@
 /.vs/ProjectEvaluation
 /.vs
 /SchoolManagementAPI/obj/Release/net8.0
+/SchoolManagement.Dto/bin/Debug/net8.0
+/SchoolManagement.Mappers/obj/Debug/net8.0
+/SchoolManagement.Mapper/obj/Debug/net8.0
+/SchoolManagement.Mapper/obj
+/SchoolManagement.Mappers/obj
+/SchoolManagement.Dto/obj/Debug/net8.0
+/SchoolManagement.Dto/obj
+/SchoolManagement.Mappers/bin/Debug/net8.0

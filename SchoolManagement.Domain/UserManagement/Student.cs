@@ -8,7 +8,7 @@
         public string PasswordHash { get; set; } = default!;
         public required string Email { get; set; }
         public Gender Gender { get; set; }
-        public UserStatus UserStatus { get; private set; }
+        public UserStatus UserStatus { get; set; }
         public List<Enrollment>? Enrollments { get; set; }
     }
 }
