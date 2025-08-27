@@ -41,7 +41,7 @@ namespace SchoolManagement.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Student>>> GetAllStudents()
         {
-            return await _context.Students.ToListAsync();
+            return await _context.Students.Include(s => s.Enrollments).ToListAsync();
         }
 
 
