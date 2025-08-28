@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Dto;
 using SchoolManagement.Persistence;
-using SchoolManagement.Mappers;
 using SchoolManagement.Domain.UserManagement;
 
 
@@ -17,25 +16,6 @@ namespace SchoolManagement.API.Controllers
         public StudentController(SchoolManagementDbContext context)
         {
             _context = context;
-        }
-        [HttpPost]
-        public async Task<ActionResult> CreateStudent([FromBody] StudentCreateDto dto)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var existingStudent = await _context.Students.AnyAsync(s => s.Email == dto.Email);
-            if (existingStudent)
-            {
-                return BadRequest(new { message = "This Email already exists in the system."});
-            }
-
-            var student = dto.ToEntity();
-
-            await _context.Students.AddAsync(student);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { Message = "Student created successfully"});
         }
 
         [HttpGet]
