@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SchoolManagement.Domain.UserManagement;
 using SchoolManagement.Dto;
 using SchoolManagement.Persistence;
-using SchoolManagement.Domain.UserManagement;
 
 
 namespace SchoolManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class StudentController : ControllerBase
     {
         private readonly SchoolManagementDbContext _context;
