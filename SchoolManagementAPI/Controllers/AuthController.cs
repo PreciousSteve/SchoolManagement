@@ -77,43 +77,46 @@ namespace SchoolManagement.API.Controllers
         {
             if (string.IsNullOrEmpty(loginRequest.Email) || string.IsNullOrEmpty(loginRequest.Password))
             {
-                return BadRequest(new { message = "Email and Password are Required" });
+                return BadRequest(new { message = "Email and Password are required." });
             }
 
-            var student = await _context.Students.FirstOrDefaultAsync(em => em.Email == loginRequest.Email);
-
-            if (student == null)
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.Email == loginRequest.Email);
+            if (student != null && VerifyPassword(loginRequest.Password, student.PasswordHash!))
             {
-                return Unauthorized("Invalid Email or Password");
+                var token = GenerateJwtToken(student.Email, student.Id.ToString(), "Student");
+                return Ok(new LoginResponseDto
+                {
+                    Token = token,
+                    Email = student.Email,
+                    Id = student.Id,
+                    Role = "Student"
+                });
             }
-            if (!VerifyPassword(loginRequest.Password, student.PasswordHash!))
+
+            var teacher = await _context.Teachers.FirstOrDefaultAsync(t => t.Email == loginRequest.Email);
+            if (teacher != null && VerifyPassword(loginRequest.Password, teacher.PasswordHash!))
             {
-                return Unauthorized("Invalid Email or Password");
+                var token = GenerateJwtToken(teacher.Email, teacher.Id.ToString(), "Teacher");
+                return Ok(new LoginResponseDto
+                {
+                    Token = token,
+                    Email = teacher.Email,
+                    Id = teacher.Id,
+                    Role = "Teacher"
+                });
             }
 
-            var token = GenerateJwtToken(student);
-
-            return Ok(new LoginResponseDto
-            {
-                Token = token,
-                Email = student.Email,
-                Id = student.Id
-            });
-
-
-
+            return Unauthorized(new { message = "Invalid Email or Password." });
         }
 
-
-        private string GenerateJwtToken(Student student)
+        private string GenerateJwtToken(string email, string userId, string role)
         {
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.NameIdentifier, student.Id.ToString()),
-                new Claim(ClaimTypes.Email, student.Email),
-                new Claim(ClaimTypes.Name, student.FirstName),
-                new Claim(ClaimTypes.GivenName, $"{student.FirstName} {student.LastName}"),
-            };
+           var claims = new[]
+           {
+                new Claim(ClaimTypes.NameIdentifier, userId),
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.Role, role)
+           };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -122,12 +125,10 @@ namespace SchoolManagement.API.Controllers
                 issuer: _configuration["Issuer"],
                 audience: _configuration["Audience"],
                 claims: claims,
-                signingCredentials: creds,
-                expires: DateTime.Now.AddHours(1));
+                expires: DateTime.Now.AddHours(1),
+                signingCredentials: creds);
 
-            var newToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return newToken;
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
 
