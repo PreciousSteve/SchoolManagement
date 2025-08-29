@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Domain;
 using SchoolManagement.Domain.UserManagement;
 using SchoolManagement.Dto;
 using SchoolManagement.Persistence;
+using System.Security.Claims;
 
 namespace SchoolManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClassroomController : ControllerBase
     {
         private readonly SchoolManagementDbContext _context;
@@ -74,6 +77,41 @@ namespace SchoolManagement.API.Controllers
             if (classroom == null)
             {
                 return NotFound($"Classroom with ID {id} not found.");
+            }
+
+            return Ok(classroom);
+        }
+
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Classroom>> UpdateClassroom(int id, ClassroomCreateDto dto)
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var role = identity.FindFirst(ClaimTypes.Role).Value;
+
+            if (role != "Teacher")
+            {
+                return Unauthorized("You cannot Update this Classroom");
+            }
+
+            var classroom = await _context.Classrooms.FindAsync(id);
+            if (classroom == null)
+            {
+                return NotFound(new { message = $"Classroom with ID {id} does not exist" });
+            }
+
+            classroom.Name = dto.Name;
+            classroom.Description = dto.Description;
+            classroom.TeacherId = dto.TeacherId;    
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return Conflict(new { message = "A concurrency error occurred while updating the teacher." });
             }
 
             return Ok(classroom);
