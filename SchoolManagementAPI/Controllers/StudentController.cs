@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Domain.UserManagement;
 using SchoolManagement.Dto;
 using SchoolManagement.Persistence;
+using System.Security.Claims;
 
 
 namespace SchoolManagement.API.Controllers
@@ -39,8 +40,18 @@ namespace SchoolManagement.API.Controllers
         }
 
         [HttpPut("{id}")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<Student>> UpdateStudent(int id, StudentCreateDto dto)
         {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var role = identity.FindFirst(ClaimTypes.Role).Value;
+
+            if (role != "Teacher" && userId != id.ToString())
+            {
+                return Forbid("You cannot Update the Student");
+            }
+
             var student = await _context.Students.FindAsync(id);
             if (student == null)
             {
@@ -56,7 +67,7 @@ namespace SchoolManagement.API.Controllers
             student.FirstName = dto.FirstName;
             student.LastName = dto.LastName;
             student.Email = dto.Email;
-            student.PasswordHash = dto.Password;
+            student.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password); ;
             student.Gender = dto.Gender;
 
             try

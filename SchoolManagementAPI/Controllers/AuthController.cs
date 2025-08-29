@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -107,6 +108,24 @@ namespace SchoolManagement.API.Controllers
             }
 
             return Unauthorized(new { message = "Invalid Email or Password." });
+        }
+
+        [HttpGet("me")]
+        [Authorize]
+        public ActionResult<CurrentUserDto> GetCurrentUser()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var email = identity.FindFirst(ClaimTypes.Email).Value;
+            var role = identity.FindFirst(ClaimTypes.Role).Value;
+
+            var currentUser = new CurrentUserDto
+            {
+                Id = int.Parse(userId),
+                Email = email,
+                Role = role
+            };
+            return Ok(currentUser);
         }
 
         private string GenerateJwtToken(string email, string userId, string role)
