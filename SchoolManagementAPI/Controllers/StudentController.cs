@@ -40,7 +40,6 @@ namespace SchoolManagement.API.Controllers
         }
 
         [HttpPut("{id}")]
-        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<Student>> UpdateStudent(int id, StudentCreateDto dto)
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
@@ -49,7 +48,7 @@ namespace SchoolManagement.API.Controllers
 
             if (role != "Teacher" && userId != id.ToString())
             {
-                return Forbid("You cannot Update the Student");
+                return Unauthorized("You cannot Update the Student");
             }
 
             var student = await _context.Students.FindAsync(id);
