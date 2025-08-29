@@ -33,9 +33,10 @@ namespace SchoolManagement.API.Controllers
             {  
                 return BadRequest(ModelState);
             }
-                
 
-            var existingStudent = await _context.Students.AnyAsync(s => s.Email == dto.Email);
+
+            var existingStudent = await _context.Students.AnyAsync(s => s.Email == dto.Email)
+                      || await _context.Teachers.AnyAsync(t => t.Email == dto.Email);
             if (existingStudent)
             {
                 return BadRequest(new { message = "This Email already exists in the system." });
@@ -57,9 +58,7 @@ namespace SchoolManagement.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-
-            var existingTeacher = await _context.Teachers.AnyAsync(t => t.Email == dto.Email);
+            var existingTeacher = await _context.Teachers.AnyAsync(t => t.Email == dto.Email) || await _context.Students.AnyAsync(s => s.Email == dto.Email);
             if (existingTeacher)
             {
                 return BadRequest(new { message = "This Email already exists in the system." });
